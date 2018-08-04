@@ -1,0 +1,42 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+type Query {
+  getUsers: [User]
+  getUser(id: ID!): User
+  getSurveys: [Survey]
+  getSurvey(id: ID!): Survey
+  getAnswers(surveyID: ID!): [Answer]
+}
+type Mutation {
+  addUser(id: ID!, name: String!): User
+  addSurvey(id: ID!, title: String!): Survey
+  addQuestion(id: ID!, surveyID: ID!, text: String!, choices: [Choice!]!): Question
+  addAnswer(id: ID!, userID: ID!, surveyID: ID!, questionID: ID!, choice: Choice): Answer
+}
+type User {
+  id: ID!
+  name: String!
+}
+type Survey {
+  id: ID!
+  title: String!
+  questions: [Question]
+  answers: [Answer]
+}
+type Question {
+  id: ID!
+  text: String!
+  choices: [Choice]! 
+}
+type Choice {
+  id: ID!
+  text: String!
+}
+type Answer {
+  id: ID!
+  user: User!
+  question: Question!
+  choice: Choice!
+}
