@@ -1,42 +1,65 @@
-schema {
-  query: Query
-  mutation: Mutation
-}
-type Query {
-  getUsers: [User]
-  getUser(id: ID!): User
-  getSurveys: [Survey]
-  getSurvey(id: ID!): Survey
-  getAnswers(surveyID: ID!): [Answer]
-}
-type Mutation {
-  addUser(id: ID!, name: String!): User
-  addSurvey(id: ID!, title: String!): Survey
-  addQuestion(id: ID!, surveyID: ID!, text: String!, choices: [Choice!]!): Question
-  addAnswer(id: ID!, userID: ID!, surveyID: ID!, questionID: ID!, choice: Choice): Answer
-}
-type User {
-  id: ID!
-  name: String!
-}
-type Survey {
-  id: ID!
-  title: String!
-  questions: [Question]
-  answers: [Answer]
-}
-type Question {
-  id: ID!
-  text: String!
-  choices: [Choice]! 
-}
-type Choice {
-  id: ID!
-  text: String!
-}
 type Answer {
-  id: ID!
-  user: User!
-  question: Question!
-  choice: Choice!
+	id: ID!
+	user: User!
+	question: Question!
+	choice: Choice!
+}
+
+type Choice {
+	id: ID!
+	text: String!
+}
+
+input ChoiceInput {
+	id: ID!
+	text: String!
+}
+
+type Mutation {
+	addUser(id: ID!, name: String!): User
+	addSurvey(id: ID!, title: String!): Survey
+	addQuestion(
+		id: ID!,
+		surveyID: ID!,
+		text: String!,
+		choices: [ChoiceInput!]!
+	): Question
+	addAnswer(
+		id: ID!,
+		userID: ID!,
+		surveyID: ID!,
+		questionID: ID!,
+		choice: ID!
+	): Answer
+}
+
+type Query {
+	getUsers: [User]
+	getUser(id: ID!): User
+	getSurveys: [Survey]
+	getSurvey(id: ID!): Survey
+	getAnswers(surveyID: ID!): [Answer]
+}
+
+type Question {
+	id: ID!
+	text: String!
+	choices: [Choice]!
+}
+
+type Survey {
+	id: ID!
+	title: String!
+	questions: [Question]
+	answers: [Answer]
+}
+
+type User {
+	id: ID!
+	name: String!
+}
+
+schema {
+	query: Query
+	mutation: Mutation
 }
