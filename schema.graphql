@@ -1,0 +1,282 @@
+﻿type Answer {
+  choiceId: ID!
+  id: ID!
+  questionId: ID!
+  userId: ID!
+}
+
+type AnswerConnection {
+  items: [Answer]
+  nextToken: String
+}
+
+type Choice {
+  id: ID!
+  questionId: ID!
+  text: String!
+}
+
+type ChoiceConnection {
+  items: [Choice]
+  nextToken: String
+}
+
+type Mutation {
+  createAnswer(input: CreateAnswerInput!): Answer
+  createChoice(input: CreateChoiceInput!): Choice
+  createQuestion(input: CreateQuestionInput!): Question
+  createSurvey(input: CreateSurveyInput!): Survey
+  createUser(input: CreateUserInput!): User
+  deleteAnswer(input: DeleteAnswerInput!): Answer
+  deleteChoice(input: DeleteChoiceInput!): Choice
+  deleteQuestion(input: DeleteQuestionInput!): Question
+  deleteSurvey(input: DeleteSurveyInput!): Survey
+  deleteUser(input: DeleteUserInput!): User
+  updateAnswer(input: UpdateAnswerInput!): Answer
+  updateChoice(input: UpdateChoiceInput!): Choice
+  updateQuestion(input: UpdateQuestionInput!): Question
+  updateSurvey(input: UpdateSurveyInput!): Survey
+  updateUser(input: UpdateUserInput!): User
+}
+
+type Query {
+  getAnswer(id: ID!): Answer
+  getChoice(id: ID!): Choice
+  getQuestion(id: ID!): Question
+  getSurvey(id: ID!): Survey
+  getUser(id: ID!): User
+  listAnswers(filter: TableAnswerFilterInput, limit: Int, nextToken: String): AnswerConnection
+  listChoices(filter: TableChoiceFilterInput, limit: Int, nextToken: String): ChoiceConnection
+  listQuestions(filter: TableQuestionFilterInput, limit: Int, nextToken: String): QuestionConnection
+  listSurveys(filter: TableSurveyFilterInput, limit: Int, nextToken: String): SurveyConnection
+  listUsers(filter: TableUserFilterInput, limit: Int, nextToken: String): UserConnection
+}
+
+type Question {
+  id: ID!
+  surveyId: ID!
+  text: String!
+}
+
+type QuestionConnection {
+  items: [Question]
+  nextToken: String
+}
+
+type Subscription {
+  onCreateAnswer(choiceId: ID, id: ID, questionId: ID, userId: ID): Answer
+    @aws_subscribe(mutations:["createAnswer"])
+  onCreateChoice(id: ID, questionId: ID, text: String): Choice
+    @aws_subscribe(mutations:["createChoice"])
+  onCreateQuestion(id: ID, surveyId: ID, text: String): Question
+    @aws_subscribe(mutations:["createQuestion"])
+  onCreateSurvey(createdId: ID, id: ID, title: String): Survey
+    @aws_subscribe(mutations:["createSurvey"])
+  onCreateUser(id: ID, name: String, role: String): User
+    @aws_subscribe(mutations:["createUser"])
+  onDeleteAnswer(choiceId: ID, id: ID, questionId: ID, userId: ID): Answer
+    @aws_subscribe(mutations:["deleteAnswer"])
+  onDeleteChoice(id: ID, questionId: ID, text: String): Choice
+    @aws_subscribe(mutations:["deleteChoice"])
+  onDeleteQuestion(id: ID, surveyId: ID, text: String): Question
+    @aws_subscribe(mutations:["deleteQuestion"])
+  onDeleteSurvey(createdId: ID, id: ID, title: String): Survey
+    @aws_subscribe(mutations:["deleteSurvey"])
+  onDeleteUser(id: ID, name: String, role: String): User
+    @aws_subscribe(mutations:["deleteUser"])
+  onUpdateAnswer(choiceId: ID, id: ID, questionId: ID, userId: ID): Answer
+    @aws_subscribe(mutations:["updateAnswer"])
+  onUpdateChoice(id: ID, questionId: ID, text: String): Choice
+    @aws_subscribe(mutations:["updateChoice"])
+  onUpdateQuestion(id: ID, surveyId: ID, text: String): Question
+    @aws_subscribe(mutations:["updateQuestion"])
+  onUpdateSurvey(createdId: ID, id: ID, title: String): Survey
+    @aws_subscribe(mutations:["updateSurvey"])
+  onUpdateUser(id: ID, name: String, role: String): User
+    @aws_subscribe(mutations:["updateUser"])
+}
+
+type Survey {
+  createdId: ID!
+  id: ID!
+  title: String!
+}
+
+type SurveyConnection {
+  items: [Survey]
+  nextToken: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  role: String!
+}
+
+type UserConnection {
+  items: [User]
+  nextToken: String
+}
+
+input CreateAnswerInput {
+  choiceId: ID!
+  questionId: ID!
+  userId: ID!
+}
+
+input CreateChoiceInput {
+  questionId: ID!
+  text: String!
+}
+
+input CreateQuestionInput {
+  surveyId: ID!
+  text: String!
+}
+
+input CreateSurveyInput {
+  createdId: ID!
+  title: String!
+}
+
+input CreateUserInput {
+  name: String!
+  role: String!
+}
+
+input DeleteAnswerInput {
+  id: ID!
+}
+
+input DeleteChoiceInput {
+  id: ID!
+}
+
+input DeleteQuestionInput {
+  id: ID!
+}
+
+input DeleteSurveyInput {
+  id: ID!
+}
+
+input DeleteUserInput {
+  id: ID!
+}
+
+input TableAnswerFilterInput {
+  choiceId: TableIDFilterInput
+  id: TableIDFilterInput
+  questionId: TableIDFilterInput
+  userId: TableIDFilterInput
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableChoiceFilterInput {
+  id: TableIDFilterInput
+  questionId: TableIDFilterInput
+  text: TableStringFilterInput
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableQuestionFilterInput {
+  id: TableIDFilterInput
+  surveyId: TableIDFilterInput
+  text: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input TableSurveyFilterInput {
+  createdId: TableIDFilterInput
+  id: TableIDFilterInput
+  title: TableStringFilterInput
+}
+
+input TableUserFilterInput {
+  id: TableIDFilterInput
+  name: TableStringFilterInput
+  role: TableStringFilterInput
+}
+
+input UpdateAnswerInput {
+  choiceId: ID
+  id: ID!
+  questionId: ID
+  userId: ID
+}
+
+input UpdateChoiceInput {
+  id: ID!
+  questionId: ID
+  text: String
+}
+
+input UpdateQuestionInput {
+  id: ID!
+  surveyId: ID
+  text: String
+}
+
+input UpdateSurveyInput {
+  createdId: ID
+  id: ID!
+  title: String
+}
+
+input UpdateUserInput {
+  id: ID!
+  name: String
+  role: String
+}

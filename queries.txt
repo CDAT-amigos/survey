@@ -1,0 +1,101 @@
+# Welcome!
+#
+# This is an in-browser tool for writing, validating, and
+# testing GraphQL queries.
+#
+# An example query named "GetPost" might look like:
+#
+#     query GetPost {
+#       singlePost(id: 123) {
+#         id
+#         title
+#       }
+#     }
+#
+# An example mutation named "PutPost" might look like:
+#
+#     mutation PutPost {
+#       putPost(id: 123, title: "Hello, world!") {
+#         id
+#         title
+#       }
+#     }
+#
+# Keyboard shortcuts:
+#
+#  Prettify Query:  Ctrl+Shift+P (also removes comments)
+#       Run Query:  Ctrl+Enter   (or press the play button above)
+#   Auto Complete:  Ctrl+Space   (or just start typing)
+#
+
+mutation createUser{
+  createUser(input:{
+    name:"Thomas",
+    role:"Admin"
+  }){
+    id
+    name
+    role
+  }
+}
+mutation createSurvey{
+  createSurvey(input:{title:"Thomas survey", createdId:"f8ddbcd6-c5b6-4ce3-b45a-17b90336382c"}){
+    id
+    title
+    createdId
+  }
+}
+mutation createQuestion{
+  createQuestion(input:{text:"Who is on first", surveyId:"d2679299-6407-42c7-b8f4-b9ce7de0de7f"}){
+    id
+    text
+    surveyId
+  }
+}
+mutation createChoice{
+  createChoice(input:{text:"Abbot", questionId:"6d0f8609-7af0-4cd3-aecf-943bd5dc69ad"}){
+    text
+    questionId
+    id
+  }
+}
+mutation createChoice2{
+  createChoice(input:{text:"Castello", questionId:"6d0f8609-7af0-4cd3-aecf-943bd5dc69ad"}){
+    text
+    questionId
+    id
+  }
+}
+query listUsers{
+  listUsers{
+    items{
+      id
+      name
+      role
+    }
+  }
+}
+query listChoices{
+  listChoices{
+    items{
+      id
+      text
+    }
+  }
+}
+mutation createAnswer {
+  createAnswer(input:{
+    questionId:"6d0f8609-7af0-4cd3-aecf-943bd5dc69ad", 
+    userId:"f8ddbcd6-c5b6-4ce3-b45a-17b90336382c",
+    choiceId:"0acd70a8-b88d-4d46-a84e-4666bda2766f"
+  }) {
+    id
+    questionId
+    userId
+    choiceId
+  }
+}
+
+
+
+
