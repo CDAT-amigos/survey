@@ -1,4 +1,5 @@
-const {request} = require('graphql-request')
+const {GraphQLClient} = require('graphql-request')
+const {API_KEY}=process.env
 
 //TODO!! Make query work with actual app sync schema
 const query = `{
@@ -10,5 +11,13 @@ const query = `{
   }
 }`
 
-//TODO!! add correct url
-request('https://api.graph.cool/simple/v1/movies', query).then(data => console.log(data))
+const client= new GraphQLClient(
+    'https://finozlhfpjgh5a6lzt2yefvwoi.appsync-api.us-east-2.amazonaws.com/graphql', 
+    {
+        headers:{
+            Authorization:API_KEY
+        }
+    }
+)
+
+client.request(query).then(data => console.log(data))
