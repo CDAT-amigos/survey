@@ -21,4 +21,4 @@ const client= new GraphQLClient(
     }
 )
 
-client.request(query).then(data => console.log(data))
+client.request(query).then(data => data.listUsers.items.forEach(v=>console.log(v)))
