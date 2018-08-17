@@ -1,15 +1,18 @@
 const {GraphQLClient} = require('graphql-request')
+require('dotenv').config()
 const {API_KEY}=process.env
+console.log(API_KEY)
 
-//TODO!! Make query work with actual app sync schema
 const query = `{
-  Movie(title: "Inception") {
-    releaseDate
-    actors {
+  listUsers{
+    items{
+      id
       name
+      role
     }
   }
-}`
+}
+`
 
 const client= new GraphQLClient(
     'https://finozlhfpjgh5a6lzt2yefvwoi.appsync-api.us-east-2.amazonaws.com/graphql', 
