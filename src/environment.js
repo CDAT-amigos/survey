@@ -8,7 +8,7 @@ const {
     REACT_APP_API_KEY: API_KEY, 
     REACT_APP_END_POINT: END_POINT
 }=process.env
-console.log(API_KEY)
+
 const fetchQuery=(
     operation,
     variables,
