@@ -1,21 +1,36 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {graphql, QueryRenderer} from 'react-relay';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import environment from './environment'
 
-export default App;
+export default ()=>(
+<QueryRenderer
+  environment={environment}
+  query={graphql`
+    query AppQuery{
+      listUsers{
+        items{
+          id
+          name
+          role
+        }
+      }
+    }
+  `}
+  variables={{}}
+  render={({error, props}) => {
+    if (error) {
+      return <div>Error!</div>
+    }
+    if (!props) {
+      return <div>Loading...</div>
+    }
+    console.log(props)
+    return <div><ul>
+      {props.listUsers.items.map(({id, name, role})=>{ //note to everyone else: id, name and role are GUARANTEED to exist so I don't have to mess with checking them.  Thanks GRAPHQL!
+        return <li key={id}>{id}-{name}-{role}</li>
+      })}
+      </ul></div>
+  }}
+/>
+)
