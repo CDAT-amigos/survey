@@ -14,7 +14,7 @@ const CreateUser=()=>(
       <button onClick={()=>createUser({
           variables:{
             input:{
-              name:'Charles',
+              name:'Charles', //how do get these values in here
               role:'User'
             }
           },
