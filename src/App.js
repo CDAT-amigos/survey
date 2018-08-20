@@ -1,21 +1,75 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import {client} from './apollo'
+import { ApolloProvider, Query, Mutation } from 'react-apollo'
+import {getUsersQuery, getUsersOptions, CREATE_USER, SET_USER_ATTRIBUTES } from './graphql'
+import DisplayUsers from './components/DisplayUsers'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+const CreateUser=()=>(
+  <Mutation 
+    mutation={CREATE_USER}
+  >
+    {createUser=>(
+      <button onClick={()=>createUser({
+          variables:{
+            input:{
+              name:'Charles',
+              role:'User'
+            }
+          },
+          optimisticResponse:{
+            __typename:'Mutation', //what is this for?
+            createUser:{
+              __typename:'User',//what is this for?
+              name:'Someone',
+              role:'User',
+              id:'5' //this is needed because Apollo is stupid
+            }
+          },
+          update:(cache, {data:{createUser}})=>{
+            const {listUsers}=cache.readQuery({query:getUsersQuery})
+            const {items}=listUsers
+            console.log(items)
+            console.log(createUser)
+            const data={listUsers:{items:[...(items||[]), createUser], ...listUsers}}
+            cache.writeQuery({
+              query:getUsersQuery,
+              data
+            })
+          }
+        })}
+      >
+        Create User
+      </button>
+    )}
+  </Mutation>
+)
+const SetUserAttributes=()=>(
+  <Mutation 
+    mutation={SET_USER_ATTRIBUTES}
+  >
+    {setUserAttributes=>(
+      <div>
+        Name: <input onChange={e=>setUserAttributes({name:e.target.value})}/>
+        Role: <input onChange={e=>setUserAttributes({role:e.target.value})}/>
       </div>
-    );
-  }
-}
+      
+    )}
+  
+  </Mutation>
+)
 
-export default App;
+export default ()=>(
+  <ApolloProvider client={client}>
+    <div>
+      <h2>My first Apollo app</h2>
+
+    </div>
+    <SetUserAttributes/>
+    <CreateUser/>
+    
+    <DisplayUsers/>
+    
+  </ApolloProvider>
+)

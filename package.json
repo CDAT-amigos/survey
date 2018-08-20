@@ -3,19 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-boost": "^0.1.14",
     "dotenv": "^6.0.0",
+    "graphql": "^0.13.2",
     "react": "^16.4.2",
+    "react-apollo": "^2.1.11",
     "react-dom": "^16.4.2",
+    "react-infinite-scroll-component": "^4.2.0",
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start": "node ./setup && react-scripts start",
+    "build": "node ./setup && react-scripts build",
+    "test": "node ./setup && react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "testapi": "node ./server/testEndpoint"
   },
   "devDependencies": {
+    "babel-plugin-relay": "^1.6.2",
     "graphql-request": "^1.8.2"
   }
 }
