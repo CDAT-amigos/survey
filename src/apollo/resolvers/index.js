@@ -1,6 +1,6 @@
-import createUser from './createUser'
+import updateUserAttributes from './updateUserAttributes'
 export default {
     Mutation:{
-        createUser
+        updateUserAttributes
     }
 }

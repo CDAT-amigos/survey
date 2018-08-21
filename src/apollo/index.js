@@ -1,5 +1,6 @@
 import ApolloClient from 'apollo-boost'
 import resolvers from './resolvers'
+import defaults from './defaults'
 const {REACT_APP_API_KEY:API_KEY, REACT_APP_END_POINT:END_POINT} = process.env
 
 export const client = new ApolloClient({
@@ -10,5 +11,6 @@ export const client = new ApolloClient({
   },
   clientState: {
     resolvers,
+    defaults
   }
 })

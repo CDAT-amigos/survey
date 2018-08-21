@@ -3,7 +3,7 @@ import { Query } from 'react-apollo'
 import { getUsersQuery } from '../graphql'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
-/**the update query may be exportable */
+/**the update query may be exportable.... similar to SubmitButton */
 const next=({fetchMore, nextToken})=>()=>fetchMore({
     query:getUsersQuery,
     variables:{

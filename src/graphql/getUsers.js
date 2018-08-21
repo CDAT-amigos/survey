@@ -16,3 +16,18 @@ query listUsers($nextToken:String) {
 export const getUsersOptions=({
     props:({data:{listUsers}})=>({listUsers})
 })
+
+export const getUserAttributesQuery=gql`
+    query {
+        getUserAttributes @client {
+            name
+            role
+        }
+    }
+`
+
+export const getUserAttributesOptions=({
+    props:({data:{getUserAttributes}})=>({
+        getUserAttributes
+    })
+})
