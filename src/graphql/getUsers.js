@@ -18,7 +18,7 @@ export const getUsersOptions=({
 })
 
 export const getUserAttributesQuery=gql`
-    query {
+    query getUserAttributes {
         getUserAttributes @client {
             name
             role

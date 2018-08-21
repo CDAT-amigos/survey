@@ -1,7 +1,11 @@
 export default {
     surveyApp:{
         __typename: 'SurveyAppRoot',
-        users:[],
+        listUsers:{
+            items:[],
+            nextToken:null,
+            __typename:'UserConnection'
+        },
         getUserAttributes:{
             name:'',
             role:'',

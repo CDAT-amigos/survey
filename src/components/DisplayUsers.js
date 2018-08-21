@@ -28,7 +28,7 @@ export default ({nextToken})=>(
         {({loading, error, data, fetchMore})=>{
             if(loading) return<p>Loading...</p>
             if(error) return <p>Error: {error}</p>
-
+            console.log(data)
             const {listUsers}=data
             const {items, nextToken}=listUsers
             return (
