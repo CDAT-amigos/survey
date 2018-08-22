@@ -10,6 +10,7 @@ export const CREATE_USER=gql`
   }
 `
 
+/*
 export const SET_USER_ATTRIBUTES=gql`
   mutation setUserAttributes($input: CreateUserInput!){
     setUserAttributes(input:$input) @client {
@@ -17,4 +18,4 @@ export const SET_USER_ATTRIBUTES=gql`
       role
     }
   }
-`
+`*/
