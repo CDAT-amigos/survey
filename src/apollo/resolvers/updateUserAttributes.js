@@ -1,19 +1,26 @@
 //this is for client side state management using apollo
 import gql from 'graphql-tag'
-//import {getUserAttributesQuery} from '../../graphql'
-/**query GetPageName {
-      apolloClientDemo @client {
-        currentPageName
-      }
-    } */
 
-    /**query {
-    apolloClientDemo @client {
-      currentPageName
+export const UPDATE_USER_ATTRIBUTES=gql`
+  mutation updateUserAttributes($input: CreateUserInput!){
+    updateUserAttributes(input:$input) @client {
+      name
+      role
     }
-  } */
-export default (_, {name, role}, {cache})=>{
-  //const query=getUserAttributesQuery
+  }
+`
+
+export const CREATE_USER=gql`
+  mutation createUser($input: CreateUserInput!){
+    createUser(input: $input){
+      id
+      name
+      role
+    }
+  }
+`
+
+export default (_, {input:{name, role}}, {cache})=>{
   const query=gql`
     query getUserAttributes {
       getUserAttributes @client {
@@ -23,9 +30,6 @@ export default (_, {name, role}, {cache})=>{
     }
   `
   const previousState=cache.readQuery({query})
-  console.log(name)
-  console.log(role)
-  console.log(previousState)
   const data={
     getUserAttributes: {
       ...previousState.getUserAttributes,
