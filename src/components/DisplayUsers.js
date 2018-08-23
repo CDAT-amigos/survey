@@ -14,7 +14,12 @@ query listUsers($nextToken:String) {
   }
 }
 `
-/**the update query may be exportable.... similar to SubmitButton */
+/**the update query may be exportable.... 
+ * similar to SubmitButton 
+ * Note that this doesnt seem to be 
+ * needed/pagination isnt working since 
+ * migrating 
+ * to AWS sdk*/
 const next=({fetchMore, nextToken})=>()=>fetchMore({
     query:getUsersQuery,
     variables:{

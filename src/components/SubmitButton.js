@@ -1,5 +1,4 @@
 import React from 'react'
-import {Mutation} from 'react-apollo'
 import { CREATE_USER } from '../apollo/resolvers'
 import { graphqlMutation } from 'aws-appsync-react'
 import gql from 'graphql-tag'
@@ -19,8 +18,8 @@ query listUsers($nextToken:String) {
 export default graphqlMutation(
   CREATE_USER, 
   getUsersQuery, 
-  'UserAttributes'
-)(({name, role, createUser})=>(//does it have to be Userattributes?
+  'UserAttributes'//does it have to be Userattributes?
+)(({name, role, createUser})=>(
   <button onClick={()=>createUser({name, role})}>
     Create User
   </button>

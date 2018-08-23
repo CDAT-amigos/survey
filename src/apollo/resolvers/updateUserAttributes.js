@@ -20,15 +20,17 @@ export const CREATE_USER=gql`
   }
 `
 
+export const getUserAttributesQuery=gql`
+query getUserAttributes {
+  getUserAttributes @client {
+    name
+    role
+  }
+}
+`
+
 export default (_, {input:{name, role}}, {cache})=>{
-  const query=gql`
-    query getUserAttributes {
-      getUserAttributes @client {
-        name
-        role
-      }
-    }
-  `
+  const query=getUserAttributesQuery
   const previousState=cache.readQuery({query})
   const data={
     getUserAttributes: {

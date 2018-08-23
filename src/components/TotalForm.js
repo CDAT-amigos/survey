@@ -2,15 +2,7 @@ import React from 'react'
 import {Query} from 'react-apollo'
 import EnterUserAttributes from './EnterUserAttributes'
 import SubmitButton from './SubmitButton'
-import gql from 'graphql-tag'
-const getUserAttributesQuery=gql`
-    query getUserAttributes {
-        getUserAttributes @client {
-            name
-            role
-        }
-    }
-`
+import {getUserAttributesQuery} from '../apollo/resolvers'
 export default ()=>(
     <Query query={getUserAttributesQuery}>
         {({loading, error, data})=>{
