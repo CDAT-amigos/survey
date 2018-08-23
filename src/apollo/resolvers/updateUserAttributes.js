@@ -10,16 +10,6 @@ export const UPDATE_USER_ATTRIBUTES=gql`
   }
 `
 
-export const CREATE_USER=gql`
-  mutation createUser($input: CreateUserInput!){
-    createUser(input: $input){
-      id
-      name
-      role
-    }
-  }
-`
-
 export const getUserAttributesQuery=gql`
 query getUserAttributes {
   getUserAttributes @client {

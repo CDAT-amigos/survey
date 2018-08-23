@@ -1,5 +1,4 @@
 import React from 'react'
-import { CREATE_USER } from '../apollo/resolvers'
 import { graphqlMutation } from 'aws-appsync-react'
 import gql from 'graphql-tag'
 
@@ -14,6 +13,16 @@ query listUsers($nextToken:String) {
     nextToken
   }
 }
+`
+
+const CREATE_USER=gql`
+  mutation createUser($input: CreateUserInput!){
+    createUser(input: $input){
+      id
+      name
+      role
+    }
+  }
 `
 export default graphqlMutation(
   CREATE_USER, 
