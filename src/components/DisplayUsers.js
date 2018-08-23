@@ -2,6 +2,7 @@ import React from 'react'
 import { Query } from 'react-apollo'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import gql from 'graphql-tag'
+import LoadingMessage from './LoadingMessage'
 const getUsersQuery=gql`
 query listUsers($nextToken:String) {
   listUsers(limit:30 nextToken:$nextToken){
@@ -42,12 +43,35 @@ const next=({fetchMore, nextToken})=>()=>fetchMore({
 export default ()=>(
     <Query query={getUsersQuery} >
         {({loading, error, data, fetchMore})=>{
-            if(loading) return<p>Loading...</p>
-            if(error) return <p>Error: {error.message}</p>
-            console.log(data)
             const {listUsers}=data
             const {items, nextToken}=listUsers
             return (
+                <LoadingMessage 
+                    loading={loading}
+                    error={error}
+                >
+                    <ul>
+                        <InfiniteScroll 
+                            height={300}
+                            dataLength={items.length} 
+                            next={next({fetchMore, nextToken})} 
+                            hasMore={nextToken}
+                            loader={<h4>Loading...</h4>}
+                            endMessage={
+                                <p style={{textAlign: 'center'}}>
+                                <b>Yay! You have seen it all</b>
+                                </p>
+                            }
+
+                        >
+                            {items.map(({id, name, role}, index)=>(
+                                <li key={id||index}>{name}: {role}</li>)
+                            )}
+                        </InfiniteScroll>
+                    </ul>
+                </LoadingMessage>
+            )
+            /*return (
                 <div>
                     <ul>
                         <InfiniteScroll 
@@ -69,7 +93,7 @@ export default ()=>(
                         </InfiniteScroll>
                     </ul>
                 </div>
-            )
+            )*/
         }}
     </Query>
 )
