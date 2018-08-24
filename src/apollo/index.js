@@ -9,6 +9,7 @@ import { ApolloLink } from 'apollo-link'
 
 const {REACT_APP_API_KEY:API_KEY, REACT_APP_END_POINT:END_POINT} = process.env
 
+console.log(defaults)
 const stateLink = createLinkWithCache(cache => withClientState({
   cache,
   resolvers,

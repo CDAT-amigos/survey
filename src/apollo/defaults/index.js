@@ -1,10 +1,10 @@
 export default {
    
-    listUsers:{
+    /*listUsers:{
         items:[],
         nextToken:null,
         __typename:'UserConnection'
-    },
+    },*/
     getUserAttributes:{
         name:'',
         role:'',

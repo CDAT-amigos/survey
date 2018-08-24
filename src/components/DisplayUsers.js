@@ -2,10 +2,10 @@ import React from 'react'
 import { Query } from 'react-apollo'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import gql from 'graphql-tag'
-import LoadingMessage from './LoadingMessage'
-const getUsersQuery=gql`
+
+export const getUsersQuery=gql`
 query listUsers($nextToken:String) {
-  listUsers(limit:30 nextToken:$nextToken){
+  listUsers(limit:20 nextToken:$nextToken){
     items{
       id
       name
@@ -15,12 +15,7 @@ query listUsers($nextToken:String) {
   }
 }
 `
-/**the update query may be exportable.... 
- * similar to SubmitButton 
- * Note that this doesnt seem to be 
- * needed/pagination isnt working since 
- * migrating 
- * to AWS sdk*/
+
 const next=({fetchMore, nextToken})=>()=>fetchMore({
     query:getUsersQuery,
     variables:{
@@ -39,61 +34,36 @@ const next=({fetchMore, nextToken})=>()=>fetchMore({
         }
     }
 })
-
 export default ()=>(
-    <Query query={getUsersQuery} >
+    <Query 
+        query={getUsersQuery} 
+        fetchPolicy='cache-and-network'
+    >
         {({loading, error, data, fetchMore})=>{
-            const {listUsers}=data
-            const {items, nextToken}=listUsers
+            console.log(data)
+            const items=data.listUsers?data.listUsers.items:[]
+            const nextToken=data.listUsers?data.listUsers.nextToken:null
             return (
-                <LoadingMessage 
-                    loading={loading}
-                    error={error}
+            <ul>
+                <InfiniteScroll 
+                    height={300}
+                    dataLength={items.length} 
+                    next={next({fetchMore, nextToken})} 
+                    hasMore={nextToken}
+                    loader={<h4>Loading...</h4>}
+                    endMessage={
+                        <p style={{textAlign: 'center'}}>
+                        <b>Yay! You have seen it all</b>
+                        </p>
+                    }
+
                 >
-                    <ul>
-                        <InfiniteScroll 
-                            height={300}
-                            dataLength={items.length} 
-                            next={next({fetchMore, nextToken})} 
-                            hasMore={nextToken}
-                            loader={<h4>Loading...</h4>}
-                            endMessage={
-                                <p style={{textAlign: 'center'}}>
-                                <b>Yay! You have seen it all</b>
-                                </p>
-                            }
-
-                        >
-                            {items.map(({id, name, role}, index)=>(
-                                <li key={id||index}>{name}: {role}</li>)
-                            )}
-                        </InfiniteScroll>
-                    </ul>
-                </LoadingMessage>
+                    {items.map(({id, name, role}, index)=>(
+                        <li key={id||index}>{name}: {role}</li>)
+                    )}
+                </InfiniteScroll>
+            </ul>
             )
-            /*return (
-                <div>
-                    <ul>
-                        <InfiniteScroll 
-                            height={300}
-                            dataLength={items.length} 
-                            next={next({fetchMore, nextToken})} 
-                            hasMore={nextToken}
-                            loader={<h4>Loading...</h4>}
-                            endMessage={
-                                <p style={{textAlign: 'center'}}>
-                                <b>Yay! You have seen it all</b>
-                                </p>
-                            }
-
-                        >
-                            {items.map(({id, name, role}, index)=>(
-                                <li key={id||index}>{name}: {role}</li>)
-                            )}
-                        </InfiniteScroll>
-                    </ul>
-                </div>
-            )*/
         }}
     </Query>
 )

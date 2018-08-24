@@ -1,19 +1,7 @@
 import React from 'react'
 import { graphqlMutation } from 'aws-appsync-react'
 import gql from 'graphql-tag'
-
-const getUsersQuery=gql`
-query listUsers($nextToken:String) {
-  listUsers(limit:30 nextToken:$nextToken){
-    items{
-      id
-      name
-      role
-    },
-    nextToken
-  }
-}
-`
+import {getUsersQuery} from './DisplayUsers'
 
 const CREATE_USER=gql`
   mutation createUser($input: CreateUserInput!){
