@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import {getUsersQuery} from './DisplayUsers'
 import {Mutation} from 'react-apollo'
 import uuidv4 from 'uuid/v4'
+import {updateAppSync} from '../apollo/helpers'
 const CREATE_USER=gql`
   mutation createUser($input: CreateUserInput!){
     createUser(input: $input){
@@ -13,8 +14,13 @@ const CREATE_USER=gql`
   }
 `
 
+const localUpdate=updateAppSync(
+    'createUser', 
+    getUsersQuery, 
+    'PREPEND'
+)
 //I think this can be generalized easily
-const update=(cache, {data:{createUser}})=>{
+/*const update=(cache, {data:{createUser}})=>{
 
     const data=cache.readQuery({
         query:getUsersQuery
@@ -26,14 +32,14 @@ const update=(cache, {data:{createUser}})=>{
         query:getUsersQuery,
         data
     })
-}
+}*/
 export default ({name, role})=>{
     const input={name, role}
     return (
     <Mutation 
         mutation={CREATE_USER} 
         variables={{input}}
-        update={update}
+        update={localUpdate}
         optimisticResponse={{
             __typename:'Mutation',
             createUser:{
