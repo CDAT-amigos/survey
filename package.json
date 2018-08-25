@@ -12,7 +12,8 @@
     "react-apollo": "^2.1.11",
     "react-dom": "^16.4.2",
     "react-infinite-scroll-component": "^4.2.0",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "node ./setup && react-scripts start",
