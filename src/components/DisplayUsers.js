@@ -1,8 +1,9 @@
 import React from 'react'
-import { Query } from 'react-apollo'
+import { AppSyncQueryArray } from '../AppSync/components'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import gql from 'graphql-tag'
 
+//import {updateArrayAppSync} from '../apollo/helpers'
 export const getUsersQuery=gql`
 query listUsers($nextToken:String) {
   listUsers(limit:20 nextToken:$nextToken){
@@ -15,40 +16,29 @@ query listUsers($nextToken:String) {
   }
 }
 `
-
+/*
+const updateLocal=updateArrayAppSync('listUsers', 'APPEND')
 const next=({fetchMore, nextToken})=>()=>fetchMore({
     query:getUsersQuery,
     variables:{
         nextToken
     },
     updateQuery:(previousResult, {fetchMoreResult})=>{
-        const {items:previousItems}=previousResult.listUsers
-        const {items:nextItems, nextToken}=fetchMoreResult.listUsers
-        return {
-            ...fetchMoreResult,
-            nextToken,
-            listUsers:{
-                ...fetchMoreResult.listUsers,
-                items:[...previousItems, ...nextItems]
-            }
-        }
+        return updateLocal(previousResult, fetchMoreResult)
     }
-})
+})*/
 export default ()=>(
-    <Query 
+    <AppSyncQueryArray 
         query={getUsersQuery} 
-        fetchPolicy='cache-and-network'
+        type='APPEND'
+        //fetchPolicy='cache-and-network'
     >
-        {({loading, error, data, fetchMore})=>{
-            console.log(data)
-            const items=data.listUsers?data.listUsers.items:[]
-            const nextToken=data.listUsers?data.listUsers.nextToken:null
-            return (
+        {({data:{nextToken, items}, getNext})=>(
             <ul>
                 <InfiniteScroll 
                     height={300}
                     dataLength={items.length} 
-                    next={next({fetchMore, nextToken})} 
+                    next={getNext} 
                     hasMore={nextToken}
                     loader={<h4>Loading...</h4>}
                     endMessage={
@@ -63,7 +53,6 @@ export default ()=>(
                     )}
                 </InfiniteScroll>
             </ul>
-            )
-        }}
-    </Query>
+        )}
+    </AppSyncQueryArray>
 )
