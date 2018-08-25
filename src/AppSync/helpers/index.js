@@ -66,7 +66,7 @@ export const getOptimisticResponse=(
  * Called twice during a mutation: once for optimistic
  * and once for actual
  */
-export const updateAppSync=(mutation, query, type)=>(cache, {data})=>{
+export const updateAppSync=(mutation, query, type, id='id')=>(cache, {data})=>{
     const mutationKey=getGQLKey(mutation)
     const relevantData=data[mutationKey]
     const queryKey=getGQLKey(query)
@@ -93,7 +93,7 @@ export const updateAppSync=(mutation, query, type)=>(cache, {data})=>{
     }
     currentData[queryKey].items=getUnique(
         currentData[queryKey].items, 
-        'id'
+        id
     )
     cache.writeQuery({
         query,
