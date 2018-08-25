@@ -1,17 +1,9 @@
 import React from 'react'
-import gql from 'graphql-tag'
-import {getUsersQuery} from './DisplayUsers'
 import {AppSyncMutationArray} from '../AppSync/components'
-
-const CREATE_USER=gql`
-  mutation createUser($input: CreateUserInput!){
-    createUser(input: $input){
-      id
-      name
-      role
-    }
-  }
-`
+import {
+    CREATE_USER,
+    GET_USERS_QUERY
+} from '../apollo/gqlQueries'
 
 
 export default ({name, role})=>{
@@ -19,9 +11,9 @@ export default ({name, role})=>{
     return (
     <AppSyncMutationArray 
         mutation={CREATE_USER} 
-        query={getUsersQuery}
+        query={GET_USERS_QUERY}
         variables={input}
-        typename='Users'
+        typename='User'
         type='PREPEND'
     >
         {createUser=>(

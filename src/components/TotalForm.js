@@ -3,9 +3,9 @@ import {Query} from 'react-apollo'
 import EnterUserAttributes from './EnterUserAttributes'
 import LoadingMessage from './LoadingMessage'
 import SubmitButton from './SubmitButton'
-import {getUserAttributesQuery} from '../apollo/resolvers'
+import {GET_USER_ATTRIBUTES} from '../apollo/gqlQueries'
 export default ()=>(
-    <Query query={getUserAttributesQuery}>
+    <Query query={GET_USER_ATTRIBUTES}>
         {({loading, error, data})=>{
             const {name, role}=data.getUserAttributes
             return (

@@ -1,17 +1,19 @@
 import React from 'react'
-import {UPDATE_USER_ATTRIBUTES} from '../apollo/resolvers'
+import {UPDATE_USER_ATTRIBUTES} from '../apollo/gqlQueries'
 import {Mutation} from 'react-apollo'
-//import gql from 'graphql-tag'
+import {wrapVariables} from '../AppSync/helpers'
 
-const adjustInput=(defObj, obj)=>({
-    variables:{
-        input:{...defObj, ...obj}
-    }
-})
+const update=type=>
+    (setUserAttributes, defObj)=>
+    ({target:{value}})=>
+    setUserAttributes({
+        variables:wrapVariables(
+            {...defObj, [type]:value}
+        )
+    })
 
-const updateName=(setUserAttributes, role)=>({target:{value}})=>setUserAttributes(adjustInput({role, name:value}))
-
-const updateRole=(setUserAttributes, name)=>({target:{value}})=>setUserAttributes(adjustInput({name, role:value}))
+const updateName=update('name')
+const updateRole=update('role')
 
 export default ({name, role})=>(
 <Mutation 
@@ -21,11 +23,11 @@ export default ({name, role})=>(
         <div>
             Name: <input value={name} onChange={updateName(
                 setUserAttributes, 
-                role
+                {role}
             )}/>
             Role: <input value={role} onChange={updateRole(
                 setUserAttributes, 
-                name
+                {name}
             )}/>
         </div>
     )}

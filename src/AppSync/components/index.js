@@ -8,7 +8,11 @@ import {
 } from '../helpers'
 
 
-
+/**
+ * Similar to a standard Apollo Mutation component
+ * "type" is one of "PREPEND", "APPEND", or "REMOVE"
+ * "typename" is the __typename of the mutation object
+ */
 export const AppSyncMutationArray=({mutation, query, variables, children, type, typename, ...rest})=>{
     const localUpdate=updateAppSync(mutation, query, type)
     return (

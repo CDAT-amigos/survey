@@ -14,6 +14,10 @@ export const getUnique=(arr, key)=>{
     })
 }
 
+/**
+ * Helper function for wrapping variables
+ * in an object with key "input"
+ */
 export const wrapVariables=input=>({input})
 
 const updateArrayAppSync=(query, type)=>(current, next)=>{
@@ -34,16 +38,14 @@ const updateArrayAppSync=(query, type)=>(current, next)=>{
         default:
             console.log("Doing nothing by default")
     }
-    next[queryKey].items=getUnique(
-        next[queryKey].items, 
-        'id'
-    )
     return next
 }
 
 export const getGQLKey=query=>query.definitions[0].name.value
 
-
+/**
+ * Gets optimistic object to pass to "mutation" component
+ */
 export const getOptimisticResponse=(
     mutation, 
     input, 
@@ -60,7 +62,10 @@ export const getOptimisticResponse=(
     }
     
 }
-
+/**
+ * Called twice during a mutation: once for optimistic
+ * and once for actual
+ */
 export const updateAppSync=(mutation, query, type)=>(cache, {data})=>{
     const mutationKey=getGQLKey(mutation)
     const relevantData=data[mutationKey]
@@ -105,7 +110,11 @@ const next=({query, fetchMore, nextToken, update})=>()=>fetchMore({
         return update(previousResult, fetchMoreResult)
     }
 })
-
+/**
+ * Adjusts data flowing from Query component
+ * Addas a "getNext" attribute which can be
+ * used in pagination
+ */
 export const filterData=(query, type, children)=>({data, fetchMore, ...rest})=>{
     const queryKey=getGQLKey(query)
     const update=updateArrayAppSync(query, type)
@@ -114,3 +123,22 @@ export const filterData=(query, type, children)=>({data, fetchMore, ...rest})=>{
     const getNext=next({query, fetchMore, nextToken, update})
     return children({data:{items, nextToken}, getNext, ...rest})
 }
+
+/**
+ * Useful for client side resolvers
+ */
+export const generateResolver=query=>(_, {input}, {cache})=>{
+    const queryKey=getGQLKey(query)
+    const previousState=cache.readQuery({query})
+    const data={
+      [queryKey]: {
+        ...previousState[queryKey],
+        ...input
+      }
+    }
+    cache.writeQuery({
+      query,
+      data
+    })
+    return null
+  }

@@ -1,37 +1,9 @@
 //this is for client side state management using apollo
-import gql from 'graphql-tag'
+import {
+  GET_USER_ATTRIBUTES
+} from '../gqlQueries'
+import {
+  generateResolver
+} from '../../AppSync/helpers'
 
-export const UPDATE_USER_ATTRIBUTES=gql`
-  mutation updateUserAttributes($input: CreateUserInput!){
-    updateUserAttributes(input:$input) @client {
-      name
-      role
-    }
-  }
-`
-
-export const getUserAttributesQuery=gql`
-query getUserAttributes {
-  getUserAttributes @client {
-    name
-    role
-  }
-}
-`
-
-export default (_, {input:{name, role}}, {cache})=>{
-  const query=getUserAttributesQuery
-  const previousState=cache.readQuery({query})
-  const data={
-    getUserAttributes: {
-      ...previousState.getUserAttributes,
-      name,
-      role
-    }
-  }
-  cache.writeQuery({
-    query,
-    data
-  })
-  return null
-}
+export default generateResolver(GET_USER_ATTRIBUTES)

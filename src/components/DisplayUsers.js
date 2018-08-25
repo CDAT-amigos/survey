@@ -1,37 +1,12 @@
 import React from 'react'
 import { AppSyncQueryArray } from '../AppSync/components'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import gql from 'graphql-tag'
+import {GET_USERS_QUERY} from '../apollo/gqlQueries'
 
-//import {updateArrayAppSync} from '../apollo/helpers'
-export const getUsersQuery=gql`
-query listUsers($nextToken:String) {
-  listUsers(limit:20 nextToken:$nextToken){
-    items{
-      id
-      name
-      role
-    },
-    nextToken
-  }
-}
-`
-/*
-const updateLocal=updateArrayAppSync('listUsers', 'APPEND')
-const next=({fetchMore, nextToken})=>()=>fetchMore({
-    query:getUsersQuery,
-    variables:{
-        nextToken
-    },
-    updateQuery:(previousResult, {fetchMoreResult})=>{
-        return updateLocal(previousResult, fetchMoreResult)
-    }
-})*/
 export default ()=>(
     <AppSyncQueryArray 
-        query={getUsersQuery} 
+        query={GET_USERS_QUERY} 
         type='APPEND'
-        //fetchPolicy='cache-and-network'
     >
         {({data:{nextToken, items}, getNext})=>(
             <ul>
