@@ -1,0 +1,1 @@
+export const getBaseUrl=match=>match.path.split(":")[0]
