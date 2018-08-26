@@ -2,6 +2,9 @@ import React from 'react'
 import {UPDATE_USER_ATTRIBUTES} from '../apollo/gqlQueries'
 import {Mutation} from 'react-apollo'
 import {wrapVariables} from '../AppSync/helpers'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
+import Input from '@material-ui/core/Input'
 
 const update=type=>
     (setUserAttributes, defObj)=>
@@ -21,14 +24,32 @@ export default ({name, role})=>(
 >
     {setUserAttributes=> (
         <div>
-            Name: <input value={name} onChange={updateName(
-                setUserAttributes, 
-                {role}
-            )}/>
-            Role: <input value={role} onChange={updateRole(
-                setUserAttributes, 
-                {name}
-            )}/>
+            <FormControl>
+                <InputLabel htmlFor='name-simple'>
+                    Name
+                </InputLabel>
+                <Input 
+                    id='name-simple' 
+                    value={name} 
+                    onChange={updateName(
+                        setUserAttributes, 
+                        {role}
+                    )} 
+                />
+            </FormControl>
+            <FormControl>
+                <InputLabel htmlFor='role-simple'>
+                    Role
+                </InputLabel>
+                <Input 
+                    id='role-simple' 
+                    value={role} 
+                    onChange={updateRole(
+                        setUserAttributes, 
+                        {name}
+                    )} 
+                />
+            </FormControl>
         </div>
     )}
 </Mutation>

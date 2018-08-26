@@ -4,7 +4,7 @@ import {
     CREATE_USER,
     GET_USERS_QUERY
 } from '../apollo/gqlQueries'
-
+import Button from '@material-ui/core/Button'
 
 export default ({name, role})=>{
     const input={name, role}
@@ -17,9 +17,13 @@ export default ({name, role})=>{
         type='PREPEND'
     >
         {createUser=>(
-            <button onClick={createUser}>
+            <Button 
+                onClick={createUser}
+                variant='contained'
+                color='primary'
+            >
                 Create User
-            </button>
+            </Button>
         )}
     </AppSyncMutationArray>
     )
