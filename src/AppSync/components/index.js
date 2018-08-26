@@ -25,7 +25,10 @@ export const AppSyncMutationArray=({
         variables={wrapVariables(variables)}
         update={localUpdate}
         optimisticResponse={
-            getOptimisticResponse(mutation, variables, typename)
+            getOptimisticResponse(
+                mutation, variables, 
+                typename
+            )
         }
         children={children}
         {...rest}

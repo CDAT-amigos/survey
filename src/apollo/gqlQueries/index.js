@@ -13,6 +13,30 @@ query listUsers($nextToken:String) {
 }
 `
 
+export const GET_SURVEYS_QUERY=gql`
+query listSurveys($nextToken:String){
+    listSurveys(limit:20 nextToken:$nextToken){
+        items{
+            id
+            title
+            createdId
+        }
+    }
+}
+`
+
+export const GET_SURVEY_BY_ID_QUERY=gql`
+query getSurvey($id:ID!){
+    getSurvey(id:$id){
+        items{
+            id
+            title
+            createdId
+        }
+    }
+}
+`
+
 export const CREATE_USER=gql`
   mutation createUser($input: CreateUserInput!){
     createUser(input: $input){
