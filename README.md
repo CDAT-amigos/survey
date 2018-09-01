@@ -18,6 +18,8 @@ AppSync typically has a very stringent schema structure that has relatively (but
 
 Client side resolvers are located in the [resolvers](./src/apollo/resolvers) folder. I've created a reusable AppSync friendly resolver generator.  For how to use, see the [updateUserAttributes](./src/apollo/resolvers/updateUserAttributes.js) resolver.
 
+## How to contribute
 
+Create a new branch for each feature and bug fix.  Create a pull request to merge with master.
 
 
